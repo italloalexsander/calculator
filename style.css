@@ -21,13 +21,28 @@ body{
 }
 
 #display{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     width: 100%;
     margin: auto;
     height: 20%;
     background-color: lightgreen;
     border-radius: 10px;
+    gap: 12px;
 }
 
+#prevValue, #currentValue{
+    text-align: right;
+    color: black;
+}
+#prevValue{
+    font-size: 15px;
+}
+
+#currentValue{
+    font-size: 40px;
+}
 
 
 #rowWrapper{
