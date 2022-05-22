@@ -4,30 +4,33 @@ const operate = (operator, firstNumber, secondNumber) => {
     secondNumber = parseFloat(secondNumber);
     if(operator === "+"){
         savedNumber = firstNumber + secondNumber;
-        currentNumber = "0";
-        return console.log(firstNumber + secondNumber);
+        currentNumber = savedNumber;
     }
     if(operator === "-"){
         savedNumber = firstNumber - secondNumber;
-        currentNumber = "0";
-        return console.log(firstNumber - secondNumber);
+        currentNumber = savedNumber;
     }
     if(operator === "/"){
         savedNumber = firstNumber - secondNumber;
-        currentNumber = "0";
-        return console.log(firstNumber / secondNumber);
+        currentNumber = savedNumber;
     }
     if(operator === "*"){
         savedNumber = firstNumber * secondNumber;
-        currentNumber = "0";
-        return console.log(firstNumber * secondNumber);
+        currentNumber = savedNumber;
     }
+
+    smallerDisplay.textContent = savedNumber;
+    largerDisplay.textContent = currentNumber;
 }
 
 
 //Use the spread operator to make the HTML collection into an Array so it can use
 //Array methods
-const digits = [...document.getElementsByClassName('digits')]
+const digits = [...document.getElementsByClassName('digits')];
+
+
+const smallerDisplay = document.getElementById('prevValue');
+const largerDisplay = document.getElementById('currentValue');
 
 digits.forEach(element => {
     element.addEventListener('click', () =>{
@@ -38,7 +41,6 @@ digits.forEach(element => {
 let currentNumber = "0";
 let savedNumber = "0";
 let operator = "";
-let isFloat = false;
 
 function inputHandler(value){
     //Change the input into a number for more consistent comparisons below
@@ -54,17 +56,10 @@ function inputHandler(value){
         
     }
     if(value === "/"|| value === "*" || value === "-" || value === "+"){
-        if(savedNumber !== "0"){
-            operator = value;
-            currentNumber = "0";
-        }else{
-            savedNumber = currentNumber;
-            currentNumber = "0";
-            operator = value;
-        }
+        //Evaluate the expression;
     }
     if(value === "="){
-        operate(operator, savedNumber, currentNumber)
+        //Evaluate the expression;
     }
     if(value === "CE"){
         currentNumber = "0";
@@ -90,8 +85,12 @@ function inputHandler(value){
             currentNumber = "-" + currentNumber;
         }
     }
-    console.log("this is the current number on display: " + currentNumber);
-    console.log("this is the savedNumber" + savedNumber);
+    if(value === "."){
+        if(!(currentNumber.includes("."))){
+            currentNumber = currentNumber + ".";
+        }
+    }
+    largerDisplay.textContent = currentNumber;
 }
 
     
