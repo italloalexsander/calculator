@@ -11,31 +11,65 @@ body{
 }
 
 #outerWrapper{
-    border: 5px solid black;
+    border-radius: 15px;
     padding: 25px;
     border-radius: 15px;
     height: 500px;
     width: 350px;
-    background-color: gray;
+    background-color: darkslategray;
+    box-shadow: 5px 5px 5px black;
 }
 
 #display{
     width: 100%;
     margin: auto;
-    height: 15%;
-    background-color: green;
+    height: 20%;
+    background-color: lightgreen;
+    border-radius: 10px;
 }
 
-#buttonsWrapper .digits{
-    width: 25%;
+
+
+#rowWrapper{
+    display: flex;
+    height: 100%;
+    width: 100%;
 }
 
+.digits{
+    width: 80px;
+    height: 60px;
+    font-size: 30px;
+    border: 1px solid darkslategray;
+    border-radius: 5px;
+    background-color: white;
+}
+
+.operators{
+    background-color: lightskyblue;
+}
+
+.point{
+    background-color: gray;
+}
+
+.equals{
+    background-color: orangered;
+}
+
+.delete{
+    background-color: #8B0000;
+    color: white;
+}
+
+.digits:active{
+    transform: scale(0.98);
+}
 
 #buttonsWrapper{
+    height: 80%;
     display: flex;
-    flex-wrap: wrap;
-    height: 85%;
-
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
 }
-
-
