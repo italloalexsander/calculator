@@ -38,6 +38,7 @@ digits.forEach(element => {
 let currentNumber = "0";
 let savedNumber = "0";
 let operator = "";
+let isFloat = false;
 
 function inputHandler(value){
     //Change the input into a number for more consistent comparisons below
@@ -89,7 +90,8 @@ function inputHandler(value){
             currentNumber = "-" + currentNumber;
         }
     }
-    console.log(currentNumber);
+    console.log("this is the current number on display: " + currentNumber);
+    console.log("this is the savedNumber" + savedNumber);
 }
 
     
