@@ -1,0 +1,41 @@
+*{
+    margin: 0px;
+    padding: 0px;
+}
+
+body{
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#outerWrapper{
+    border: 5px solid black;
+    padding: 25px;
+    border-radius: 15px;
+    height: 500px;
+    width: 350px;
+    background-color: gray;
+}
+
+#display{
+    width: 100%;
+    margin: auto;
+    height: 15%;
+    background-color: green;
+}
+
+#buttonsWrapper .digits{
+    width: 25%;
+}
+
+
+#buttonsWrapper{
+    display: flex;
+    flex-wrap: wrap;
+    height: 85%;
+
+}
+
+
