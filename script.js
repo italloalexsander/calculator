@@ -8,6 +8,12 @@ const digits = [...document.getElementsByClassName('digits')];
 
 const display = document.getElementById('currentValue');
 
+window.addEventListener('keydown', element => {
+    console.log(element.code);
+    const key = document.querySelector(`.digits[data-key="${element.code}"]`);
+    inputHandler(key.value);
+})
+
 digits.forEach(element => {
     element.addEventListener('click', () =>{
     inputHandler(element.value);
