@@ -11,8 +11,13 @@ const operate = (operator, firstNumber, secondNumber) => {
         currentNumber = "0";
     }
     if(operator === "/"){
+        if(secondNumber === "0"){
+            largerDisplay.textContent = "ERROR X/0"
+            
+        }else{
         savedNumber = firstNumber / secondNumber;
         currentNumber = "0";
+        }
     }
     if(operator === "*"){
         savedNumber = firstNumber * secondNumber;
@@ -44,6 +49,9 @@ function inputHandler(value){
     if(inputAux >= 0 && inputAux <= 9){
         //Add a digit to the display
         if(currentNumber === "0" && value !== "0"){
+            currentNumber = value;
+        }
+        else if(currentNumber === "0" && value === "0"){
             currentNumber = value;
         }
         else{
