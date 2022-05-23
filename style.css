@@ -36,12 +36,12 @@ body{
     text-align: right;
     color: black;
 }
-#prevValue{
-    font-size: 15px;
-}
+
+
 
 #currentValue{
     font-size: 40px;
+    font-family: Roboto, sans-serif;
 }
 
 

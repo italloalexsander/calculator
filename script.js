@@ -4,23 +4,21 @@ const operate = (operator, firstNumber, secondNumber) => {
     secondNumber = parseFloat(secondNumber);
     if(operator === "+"){
         savedNumber = firstNumber + secondNumber;
-        currentNumber = savedNumber;
+        currentNumber = "0";
     }
     if(operator === "-"){
         savedNumber = firstNumber - secondNumber;
-        currentNumber = savedNumber;
+        currentNumber = "0";
     }
     if(operator === "/"){
-        savedNumber = firstNumber - secondNumber;
-        currentNumber = savedNumber;
+        savedNumber = firstNumber / secondNumber;
+        currentNumber = "0";
     }
     if(operator === "*"){
         savedNumber = firstNumber * secondNumber;
-        currentNumber = savedNumber;
+        currentNumber = "0";
     }
 
-    smallerDisplay.textContent = savedNumber;
-    largerDisplay.textContent = currentNumber;
 }
 
 
@@ -28,8 +26,6 @@ const operate = (operator, firstNumber, secondNumber) => {
 //Array methods
 const digits = [...document.getElementsByClassName('digits')];
 
-
-const smallerDisplay = document.getElementById('prevValue');
 const largerDisplay = document.getElementById('currentValue');
 
 digits.forEach(element => {
@@ -39,7 +35,7 @@ digits.forEach(element => {
 });
 
 let currentNumber = "0";
-let savedNumber = "0";
+let savedNumber = "";
 let operator = "";
 
 function inputHandler(value){
@@ -57,16 +53,31 @@ function inputHandler(value){
     }
     if(value === "/"|| value === "*" || value === "-" || value === "+"){
         //Evaluate the expression;
+        //Store the current value in the stored value only if the stored value is empty
+        if(savedNumber === ""){
+            savedNumber = currentNumber;
+            currentNumber = "0";
+            operator = value;
+        }
+        else{
+            operate(operator, savedNumber, currentNumber);
+            operator = value;
+            return largerDisplay.textContent = savedNumber;
+        }
+        //If stored value has a value, make the last operation and set the current operation to operator
     }
     if(value === "="){
         //Evaluate the expression;
+        operate(operator, savedNumber, currentNumber);
+        operator = "";
+        return largerDisplay.textContent = savedNumber;
     }
     if(value === "CE"){
         currentNumber = "0";
     }
     if(value === "AC"){
         currentNumber = "0";
-        savedNumber = "0";
+        savedNumber = "";
         operator = "";
     }
     if(value === "BS"){
@@ -90,7 +101,9 @@ function inputHandler(value){
             currentNumber = currentNumber + ".";
         }
     }
-    largerDisplay.textContent = currentNumber;
+    
+    return largerDisplay.textContent = currentNumber;
+
 }
 
     
