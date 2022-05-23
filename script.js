@@ -1,37 +1,11 @@
-//Function that takes an operator and two numbers and return the result
-const operate = (operator, firstNumber, secondNumber) => {
-    firstNumber = parseFloat(firstNumber);
-    secondNumber = parseFloat(secondNumber);
-    if(operator === "+"){
-        savedNumber = firstNumber + secondNumber;
-        currentNumber = "0";
-    }
-    if(operator === "-"){
-        savedNumber = firstNumber - secondNumber;
-        currentNumber = "0";
-    }
-    if(operator === "/"){
-        if(secondNumber === "0"){
-            largerDisplay.textContent = "ERROR X/0"
-            
-        }else{
-        savedNumber = firstNumber / secondNumber;
-        currentNumber = "0";
-        }
-    }
-    if(operator === "*"){
-        savedNumber = firstNumber * secondNumber;
-        currentNumber = "0";
-    }
-
-}
+let prevValue = "";
+let currentValue = "0";
+let operation = "";
 
 
-//Use the spread operator to make the HTML collection into an Array so it can use
-//Array methods
 const digits = [...document.getElementsByClassName('digits')];
 
-const largerDisplay = document.getElementById('currentValue');
+const display = document.getElementById('currentValue');
 
 digits.forEach(element => {
     element.addEventListener('click', () =>{
@@ -39,79 +13,93 @@ digits.forEach(element => {
     })
 });
 
-let currentNumber = "0";
-let savedNumber = "";
-let operator = "";
+function evaluateOperation(firstNumber, secondNumber, operation){
 
-function inputHandler(value){
-    //Change the input into a number for more consistent comparisons below
-    let inputAux = parseFloat(value); 
-    if(inputAux >= 0 && inputAux <= 9){
-        //Add a digit to the display
-        if(currentNumber === "0" && value !== "0"){
-            currentNumber = value;
-        }
-        else if(currentNumber === "0" && value === "0"){
-            currentNumber = value;
-        }
-        else{
-            currentNumber = currentNumber + value;
-        }
-        
-    }
-    if(value === "/"|| value === "*" || value === "-" || value === "+"){
-        //Evaluate the expression;
-        //Store the current value in the stored value only if the stored value is empty
-        if(savedNumber === ""){
-            savedNumber = currentNumber;
-            currentNumber = "0";
-            operator = value;
-        }
-        else{
-            operate(operator, savedNumber, currentNumber);
-            operator = value;
-            return largerDisplay.textContent = savedNumber;
-        }
-        //If stored value has a value, make the last operation and set the current operation to operator
-    }
-    if(value === "="){
-        //Evaluate the expression;
-        operate(operator, savedNumber, currentNumber);
-        operator = "";
-        return largerDisplay.textContent = savedNumber;
-    }
-    if(value === "CE"){
-        currentNumber = "0";
-    }
-    if(value === "AC"){
-        currentNumber = "0";
-        savedNumber = "";
-        operator = "";
-    }
-    if(value === "BS"){
-        if(currentNumber.length === 1){
-            currentNumber = "0";
-        }
-        else{
-            currentNumber = currentNumber.substring(0, currentNumber.length - 1);
-        }
-    }
-    if(value === "signed"){
-        if(currentNumber[0] === "-"){
-            currentNumber = currentNumber.substring(1, currentNumber.length);
-        }
-        else{
-            currentNumber = "-" + currentNumber;
-        }
-    }
-    if(value === "."){
-        if(!(currentNumber.includes("."))){
-            currentNumber = currentNumber + ".";
-        }
-    }
-    
-    return largerDisplay.textContent = currentNumber;
+    parseFloat(firstNumber);
+    parseFloat(secondNumber);
 
+
+    console.log("First number: " + firstNumber);
+    console.log("Second number: " + secondNumber);
+    console.log("Operation: " + operation);
+
+    if(operation === "+"){
+        return firstNumber + secondNumber;
+    }
+    if(operation === "/"){
+        if(secondNumber !== 0){
+            return firstNumber / secondNumber;
+        }
+        else{
+            return "ERROR";
+        }
+    }
+    if(operation === "*"){
+        return firstNumber * secondNumber;
+    }
+    if(operation === "-"){
+        return firstNumber - secondNumber;
+    }
 }
 
-    
+function updateScreenHandler(value){
+    display.textContent = value;
+}
+
+function inputHandler(input){
+    let aux = 0;
+    //Check if input is a number
+    if(currentValue.length < 15){
+        if(parseInt(input) >= 0 || parseInt(input) <= 0){
+            //If it's a number, concatenate the number with the new value, unless it's 0, then just replace it
+            if(input !== "0" && currentValue === "0"){
+                currentValue = input;
+            }
+            else if(input !== "0" && currentValue !=="0"){
+                currentValue = currentValue + input;
+            }
+
+            updateScreenHandler(currentValue);
+        }
+
+        if(input === "." && currentValue.length < 14){
+            if(!(currentValue.includes("."))){
+                currentValue = currentValue + ".";
+            }
+            updateScreenHandler(currentValue);
+        }
+    }
+
+    if(input === "AC"){
+        prevValue = "";
+        currentValue = "0";
+        operation = "";
+        updateScreenHandler(currentValue);
+    }
+
+    if(input === "CE"){
+        currentValue = "0";
+        updateScreenHandler(currentValue);
+    }
+
+    if(input === "BS"){
+        if(currentValue.length === 1){
+            currentValue = "0";
+        }
+        else{
+            currentValue = currentValue.substring(0, currentValue.length - 1);
+        }
+        updateScreenHandler(currentValue);
+
+    }
+
+    if(input === "-" || input ==="+" || input === "*" || input === "/"){
+        //Reavaluate how to deal with expressions
+    }
+
+    if(input === "="){
+        //Reavaluate how to deal with expressions
+    }
+
+
+}
