@@ -115,7 +115,8 @@ function inputHandler(input){
         }
     }
 
-    updateScreenHandler(currentValue);
+    aux = fitValueOnDisplay(currentValue);
+    updateScreenHandler(aux);
 
     if(input === "-" || input ==="+" || input === "*" || input === "/"){
         //In what situations can a operation be pressed(?)
@@ -170,5 +171,6 @@ function inputHandler(input){
         }
     }
 
+    fitValueOnDisplay(currentValue);
 
 }
