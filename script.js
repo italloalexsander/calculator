@@ -15,8 +15,8 @@ digits.forEach(element => {
 
 function evaluateOperation(firstNumber, secondNumber, operation){
 
-    parseFloat(firstNumber);
-    parseFloat(secondNumber);
+    firstNumber = parseFloat(firstNumber);
+    secondNumber = parseFloat(secondNumber);
 
 
     console.log("First number: " + firstNumber);
@@ -58,15 +58,12 @@ function inputHandler(input){
             else if(input !== "0" && currentValue !=="0"){
                 currentValue = currentValue + input;
             }
-
-            updateScreenHandler(currentValue);
         }
 
         if(input === "." && currentValue.length < 14){
             if(!(currentValue.includes("."))){
                 currentValue = currentValue + ".";
             }
-            updateScreenHandler(currentValue);
         }
     }
 
@@ -74,12 +71,11 @@ function inputHandler(input){
         prevValue = "";
         currentValue = "0";
         operation = "";
-        updateScreenHandler(currentValue);
+        
     }
 
     if(input === "CE"){
         currentValue = "0";
-        updateScreenHandler(currentValue);
     }
 
     if(input === "BS"){
@@ -89,16 +85,45 @@ function inputHandler(input){
         else{
             currentValue = currentValue.substring(0, currentValue.length - 1);
         }
-        updateScreenHandler(currentValue);
 
     }
 
+    updateScreenHandler(currentValue);
+
     if(input === "-" || input ==="+" || input === "*" || input === "/"){
-        //Reavaluate how to deal with expressions
+        //In what situations can a operation be pressed(?)
+        //1st - after a number has been stored on the result for the first time
+        //2nd - after a number has been returned as a result of another operation
+        //3rd - before a number has been pressed at all
+        if(prevValue !== "" && operation === input){
+            aux = evaluateOperation(prevValue, prevValue, operation);
+            prevValue = aux;
+            currentValue = "0";
+            operation = input;
+            updateScreenHandler(aux);
+        }
+        else if(prevValue !== "" && operation !== ""){
+            aux = evaluateOperation(prevValue, currentValue, operation);
+            prevValue = aux;
+            currentValue = "0";
+            operation = input;
+            updateScreenHandler(aux);
+        }
+        else if(prevValue === ""){
+            prevValue = currentValue;
+            currentValue = "0";
+            operation = input;
+        }
+
     }
 
     if(input === "="){
-        //Reavaluate how to deal with expressions
+        //The equal number can be called either after a operation is complete, or before
+        //if called after, the equal will just print out the number again;
+        if(prevValue !== ""){
+            aux = evaluateOperation(prevValue, currentValue, operation);
+            updateScreenHandler(aux);
+        }
     }
 
 
