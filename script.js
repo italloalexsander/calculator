@@ -1,6 +1,7 @@
 let prevValue = "";
 let currentValue = "0";
 let operation = "";
+let prevInput = "";
 
 
 const digits = [...document.getElementsByClassName('digits')];
@@ -46,12 +47,29 @@ function updateScreenHandler(value){
     display.textContent = value;
 }
 
+function fitValueOnDisplay(value){
+    size = value.length;
+    if(size <= 15){
+        return value;
+    }
+    else{
+        while(value.length > 15 || value[value.length - 1] !== "."){
+            return value.substring(0, value.length - 1)
+        }
+    }
+}
+
 function inputHandler(input){
     let aux = 0;
     //Check if input is a number
     if(currentValue.length < 15){
         if(parseInt(input) >= 0 || parseInt(input) <= 0){
             //If it's a number, concatenate the number with the new value, unless it's 0, then just replace it
+            if(prevInput === "="){
+                operation = "";
+                prevInput = "";
+                currentValue = "0";
+            }
             if(input !== "0" && currentValue === "0"){
                 currentValue = input;
             }
@@ -88,6 +106,15 @@ function inputHandler(input){
 
     }
 
+    if(input === "signed"){
+        if(currentValue[0] === "-"){
+            currentValue = currentValue.substring(1,);
+        }
+        else if(parseFloat(currentValue[0]) >= 1 && parseFloat(currentValue[0]) <= 9){
+            currentValue = "-" + currentValue;
+        }
+    }
+
     updateScreenHandler(currentValue);
 
     if(input === "-" || input ==="+" || input === "*" || input === "/"){
@@ -95,34 +122,51 @@ function inputHandler(input){
         //1st - after a number has been stored on the result for the first time
         //2nd - after a number has been returned as a result of another operation
         //3rd - before a number has been pressed at all
-        if(prevValue !== "" && operation === input){
+
+        //Still needs to validate the return of evaluateOperation to fit into the display
+        /*if(prevValue !== "" && operation === input){
             aux = evaluateOperation(prevValue, prevValue, operation);
+            aux = fitValueOnDisplay(aux.toString());
             prevValue = aux;
             currentValue = "0";
             operation = input;
             updateScreenHandler(aux);
         }
-        else if(prevValue !== "" && operation !== ""){
+        else */if(prevValue !== "" && operation !== ""){
             aux = evaluateOperation(prevValue, currentValue, operation);
+            aux = fitValueOnDisplay(aux.toString());
             prevValue = aux;
             currentValue = "0";
             operation = input;
             updateScreenHandler(aux);
+            prevInput = "";
+        }
+        else if(prevValue !== ""){
+            operation = input;
+            prevValue = currentValue;
+            currentValue = "0";
+            prevInput = "";
         }
         else if(prevValue === ""){
             prevValue = currentValue;
             currentValue = "0";
             operation = input;
+            prevInput = "";
         }
 
     }
 
     if(input === "="){
         //The equal number can be called either after a operation is complete, or before
-        //if called after, the equal will just print out the number again;
+        //throws an error, but it works fine;
         if(prevValue !== ""){
             aux = evaluateOperation(prevValue, currentValue, operation);
+            aux = fitValueOnDisplay(aux.toString());
             updateScreenHandler(aux);
+            currentValue = aux;
+            prevInput = input;
+            operation = "";
+            console.log("equals")
         }
     }
 
